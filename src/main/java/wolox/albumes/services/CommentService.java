@@ -2,34 +2,28 @@ package wolox.albumes.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import wolox.albumes.clients.CommentClient;
 import wolox.albumes.dtos.CommentDTO;
 import wolox.albumes.dtos.UserDTO;
-import wolox.albumes.utils.APP_CONFIG;
 import wolox.albumes.utils.ValidatorUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
-    public static final String GET_COMMENTS_REQUEST = "/comments";
 
-    @Autowired
-    private RestTemplate restTemplate;
     @Autowired
     private UserService userService;
 
-    public List<CommentDTO> getComments(){
-        return Arrays.asList(restTemplate.getForObject(getCommentsRequest(), CommentDTO[].class));
-    }
+    @Autowired
+    private CommentClient commentClient;
 
-    private String getCommentsRequest(){
-        return APP_CONFIG.EXTERNAL_SERVICE_URL + GET_COMMENTS_REQUEST;
+    public List<CommentDTO> getComments(){
+        return commentClient.getComments();
     }
 
     public List<CommentDTO> getCommentsApplyingFilters(String userId, String name) throws UnsupportedEncodingException {
@@ -40,7 +34,7 @@ public class CommentService {
         List<CommentDTO> comments = getComments();
         List<CommentDTO> commentsResult = comments.stream()
                 .filter(comment -> !nameFilterApplied || finalNameDecoded.equals(comment.getName()))
-                .filter(comment -> user == null || user.getEmail().equals(comment.getEmail()))
+                .filter(comment -> user == null || user.getEmail().equals(comment.getEmail())) // TODO - ningun mail coincide
                 .collect(Collectors.toList());
         return commentsResult;
     }
