@@ -6,13 +6,13 @@ https://reflectoring.io/spring-boot-data-jpa-test/
 
 API REST Application made with Java 8 & Spring Boot
 
-#### Instrucciones de uso
+### Instrucciones de uso
 Para lenvantar la aplicación simplemente se debe clonar el proyecto de manera local, abrir la consola en el directorio del proyecto y ejecutar el siguiente comando:
 
 `mvn spring-boot:run`
 
 La aplicación se levantará en el puerto 8080 de manera que la ruta inicial será: **localhost:8080**
-#### Persistencia
+### Persistencia
 
 El modelo de datos que maneja la aplicación es pequeño y sencillo, por lo que la elección de una base de datos no es una decisión crítica. Casi cualquier motor hubiese sido de utilidad para cumplir con los fines prácticos del ejercicio. De haber tenido que utilizar alguna hubiese optado por MongoDB, ya que me permite escalar facilmente y además modificar mi modelo de manera dinámica sin necesidad de realizar modificaciones. 
 
@@ -22,9 +22,9 @@ Se decidió utilizar esta base de datos en memoria con el fin de que el testeo d
 
 La solución de repositorio de Spring Data hace posible eludir detalles específicos del almacén de datos y, en cambio, resolver la mayoría de los problemas utilizando terminología específica del dominio.
 
-#### End Points
+### End Points
 Todas las respuestas se encuentran en formato JSON.
-###### Metodos GET
+##### Metodos GET
 - Obtener todos usuarios
     - `localhost:8080/users`
 - Obtener todos albumes
@@ -48,7 +48,7 @@ Todas las respuestas se encuentran en formato JSON.
 - Obtener un album compartido especifico
     - `localhost:8080/sharedAlbums/<albumId>`
     
-###### Metodos POST
+##### Metodos POST
 Tanto para el alta como el update de registros de albumes compartidos se maneja el mismo formato:
 
 `{ "albumId": <albumIdValue>,
