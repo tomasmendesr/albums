@@ -16,7 +16,7 @@ public class AlbumClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<AlbumDTO> getAlbumes(){
+    public List<AlbumDTO> getAlbums(){
         return Arrays.asList(restTemplate.getForObject(getAlbumesRequest(), AlbumDTO[].class));
     }
 

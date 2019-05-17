@@ -6,8 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.albumes.controllers.interfaces.SharedAlbumController;
 import wolox.albumes.dtos.SharedAlbumDTO;
+import wolox.albumes.exceptions.AlbumNotFoundException;
 import wolox.albumes.exceptions.SharedAlbumNotFoundException;
 import wolox.albumes.services.SharedAlbumService;
+
+import java.util.List;
 
 @RestController
 public class SharedAlbumControllerImpl implements SharedAlbumController {
@@ -17,15 +20,26 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
 
     @Override
     public ResponseEntity getAll() {
-        return ResponseEntity.ok(sharedAlbumService.findAll());
+        return ResponseEntity.ok(sharedAlbumService.findAllSharedAlbums());
     }
 
     @Override
-    public ResponseEntity newSharedAlbum(SharedAlbumDTO newSharedAlbum) {
+    public ResponseEntity saveSharedAlbumPermissions(SharedAlbumDTO newSharedAlbum) {
         try {
-            sharedAlbumService.newSharedAlbum(newSharedAlbum);
+            sharedAlbumService.saveSharedAlbum(newSharedAlbum);
             return ResponseEntity.ok("Album guardado");
-        } catch (Exception e){
+        } catch (AlbumNotFoundException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEntity saveSharedAlbumPermissionsList(List<SharedAlbumDTO> newSharedAlbumList) {
+        try {
+            if(newSharedAlbumList == null || newSharedAlbumList.size() == 0) return ResponseEntity.badRequest().body("No se recibió ningún registro");
+            sharedAlbumService.saveSharedAlbumList(newSharedAlbumList);
+            return ResponseEntity.ok("Lista guardada");
+        } catch (AlbumNotFoundException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }

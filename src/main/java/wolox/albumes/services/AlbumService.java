@@ -14,7 +14,7 @@ public class AlbumService {
     private AlbumClient albumClient;
 
     public List<AlbumDTO> getAlbums(){
-        return albumClient.getAlbumes();
+        return albumClient.getAlbums();
     }
 
     public List<AlbumDTO> getAlbumsByUserId(String userId) {

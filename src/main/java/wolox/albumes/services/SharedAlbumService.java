@@ -11,9 +11,12 @@ import wolox.albumes.models.SharedAlbum;
 import wolox.albumes.models.SharedAlbumId;
 import wolox.albumes.repositories.SharedAlbumRepository;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class SharedAlbumService {
 
     private final SharedAlbumRepository repository;
@@ -25,13 +28,14 @@ public class SharedAlbumService {
         this.albumClient = albumClient;
     }
 
-    public List<SharedAlbum> findAll() {
-        return repository.findAll();
+    public List<AlbumDTO> findAllSharedAlbums() {
+        List<Long> idsSharedAlbums = repository.findAll().stream().map(s -> s.getId().getAlbumId()).collect(Collectors.toList());
+        List<AlbumDTO> allAlbums = albumClient.getAlbums();
+        return allAlbums.stream().filter(a -> idsSharedAlbums.contains(a.getId())).collect(Collectors.toList());
     }
 
-    public void newSharedAlbum(SharedAlbumDTO newSharedAlbum) throws AlbumNotFoundException{
-        AlbumDTO albumDTO = albumClient.getAlbumById(newSharedAlbum.getAlbumId());
-        if(!isAValidAlbum(albumDTO)) throw new AlbumNotFoundException(newSharedAlbum.getAlbumId());
+    public void saveSharedAlbum(SharedAlbumDTO newSharedAlbum) throws AlbumNotFoundException{
+        checkAlbumNotFoundException(newSharedAlbum.getAlbumId());
         repository.save(dtoToModel(newSharedAlbum));
     }
 
@@ -41,6 +45,12 @@ public class SharedAlbumService {
         return albumClient.getAlbumById(id);
     }
 
+    public void saveSharedAlbumList(List<SharedAlbumDTO> newSharedAlbumList) throws AlbumNotFoundException {
+        checkAlbumNotFoundException(newSharedAlbumList.get(0).getAlbumId());
+        newSharedAlbumList.forEach(dto -> repository.save(dtoToModel(dto)));
+    }
+
+    /********* UTILS *****************/
     private SharedAlbum dtoToModel(SharedAlbumDTO dto){
         SharedAlbum album = new SharedAlbum();
         album.setId(new SharedAlbumId(dto.getAlbumId(), dto.getUserId()));
@@ -51,5 +61,10 @@ public class SharedAlbumService {
 
     private boolean isAValidAlbum(AlbumDTO albumDTO){
         return albumDTO.getId() != null;
+    }
+
+    public void checkAlbumNotFoundException(Long id) throws AlbumNotFoundException {
+        AlbumDTO albumDTO = albumClient.getAlbumById(id);
+        if(!isAValidAlbum(albumDTO)) throw new AlbumNotFoundException(id);
     }
 }
