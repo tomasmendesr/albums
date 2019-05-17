@@ -55,10 +55,10 @@ Tanto para el alta como el update de registros de albumes compartidos se maneja 
 
 Es decir, las siguientes solicitudes necesitan ese objeto en el body del request para poder ser llevadas a cabo correctamente.
 - Guardar un nuevo registro de album compartido
-    - `localhost:8080/sharedAlbums`
+    - `localhost:8080/sharedAlbums/save`
     - El body del request debe contener un objeto que debe respertar el formato indicado anteriormente.
 - Guardar varios registros para un album compartido
-    - `localhost:8080/sharedAlbums`
+    - `localhost:8080/sharedAlbums/saveList`
     - El body del request debe contener una lista de objetos que deben respertar el formato indicado anteriormente.
     
 A través de los dos métodos POST es posible modificar permisos de un usuario. Simplemente se debe enviar el objeto indicando su id, el id del album y sus nuevos permisos.

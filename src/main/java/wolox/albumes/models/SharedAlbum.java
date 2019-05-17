@@ -13,6 +13,8 @@ import javax.persistence.Table;
 public class SharedAlbum {
 
     private SharedAlbumId id;
+    private Long albumId;
+    private Long userId;
     private Boolean read;
     private Boolean write;
 
@@ -41,5 +43,23 @@ public class SharedAlbum {
 
     public void setRead(Boolean read) {
         this.read = read;
+    }
+
+    @Column(name = "userId", insertable = false, updatable = false)
+    public Long getAlbumId() {
+        return albumId;
+    }
+
+    public void setAlbumId(Long albumId) {
+        this.albumId = albumId;
+    }
+
+    @Column(name = "userId", insertable = false, updatable = false)
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

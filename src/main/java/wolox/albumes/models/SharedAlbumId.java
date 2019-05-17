@@ -29,6 +29,14 @@ public class SharedAlbumId implements Serializable {
         return albumId;
     }
 
+    public void setUserId(Long userId){
+        this.userId = userId;
+    }
+
+    public void setAlbumId(Long albumId){
+        this.albumId = albumId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

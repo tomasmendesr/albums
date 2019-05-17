@@ -7,17 +7,15 @@ import wolox.albumes.dtos.SharedAlbumDTO;
 
 import java.util.List;
 
-
-@RestController
 public interface SharedAlbumController {
 
     @GetMapping(value = "/sharedAlbums", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity getAll();
 
-    @PostMapping(value = "/sharedAlbums", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/sharedAlbums/save", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity saveSharedAlbumPermissions(@RequestBody SharedAlbumDTO newSharedAlbum);
 
-    @PostMapping(value = "/sharedAlbums", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/sharedAlbums/saveList", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity saveSharedAlbumPermissionsList(@RequestBody List<SharedAlbumDTO> newSharedAlbumList);
 
     @GetMapping(value = "/sharedAlbums/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

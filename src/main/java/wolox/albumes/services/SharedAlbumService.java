@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class SharedAlbumService {
 
-    private final SharedAlbumRepository repository;
+    private SharedAlbumRepository repository;
     private AlbumClient albumClient;
 
     @Autowired
