@@ -1,3 +1,7 @@
+https://spring.io/guides/tutorials/rest/
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories
+https://reflectoring.io/spring-boot-data-jpa-test/
+
 # Albums Application
 
 API REST Application made with Java 8 & Spring Boot
