@@ -8,7 +8,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.albumes.clients.AlbumClient;
 import wolox.albumes.dtos.AlbumDTO;
@@ -21,26 +23,28 @@ import wolox.albumes.services.SharedAlbumService;
 @SpringBootTest
 public class AlbumesApplicationTests {
 
-	@Mock
+	@Autowired
 	SharedAlbumRepository repository;
-	@Mock
+	@Autowired
 	AlbumClient albumClient;
-	@InjectMocks
+	@Autowired
 	SharedAlbumService albumService;
 
 	@Before
 	public void mockBBDD(){
 		SharedAlbum album = new SharedAlbum();
-		album.setId(new SharedAlbumId(new Long(1),new Long(1)));
+		album.setId(new SharedAlbumId(1L ,1L));
 		album.setRead(true);
+		album.setUserId(1L);
+		album.setAlbumId(1L);
 		album.setWrite(false);
 		repository.save(album);
 	}
 
 	@Test
 	public void getSharedAlbumById(){
-		AlbumDTO album = albumService.getSharedAlbumById(new Long(1));
-		AlbumDTO album2 = albumClient.getAlbumById(new Long(1));
+		AlbumDTO album = albumService.getSharedAlbumById(1L);
+		AlbumDTO album2 = albumClient.getAlbumById(1L);
 		Assert.assertEquals(album, album2);
 	}
 }
