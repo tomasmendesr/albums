@@ -1,7 +1,7 @@
 package wolox.albumes.dtos;
 
 public class UserDTO {
-    private Integer id;
+    private Long id;
     private String name;
     private String username;
     private String email;
@@ -10,11 +10,11 @@ public class UserDTO {
     private String website;
     private CompanyDTO company;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

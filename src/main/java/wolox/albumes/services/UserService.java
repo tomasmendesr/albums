@@ -24,4 +24,9 @@ public class UserService {
         return userClient.getUserById(userId);
     }
 
+    public Boolean userExists(Long userId){
+        return false;
+//        return userClient.getUserById(userId);
+    }
+
 }

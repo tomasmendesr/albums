@@ -1,25 +1,25 @@
 package wolox.albumes.dtos;
 
 public class PhotoDTO {
-    private Integer id;
-    private Integer albumId;
+    private Long id;
+    private Long albumId;
     private String title;
     private String url;
     private String thumbnailUrl;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getAlbumId() {
+    public Long getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(Integer albumId) {
+    public void setAlbumId(Long albumId) {
         this.albumId = albumId;
     }
 

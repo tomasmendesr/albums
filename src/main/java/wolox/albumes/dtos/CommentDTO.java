@@ -1,25 +1,25 @@
 package wolox.albumes.dtos;
 
 public class CommentDTO {
-    private Integer postId;
-    private Integer id;
+    private Long postId;
+    private Long id;
     private String name;
     private String email;
     private String body;
 
-    public Integer getPostId() {
+    public Long getPostId() {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(Long postId) {
         this.postId = postId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

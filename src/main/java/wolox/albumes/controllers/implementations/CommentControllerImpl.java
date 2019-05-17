@@ -8,6 +8,8 @@ import wolox.albumes.controllers.interfaces.CommentController;
 import wolox.albumes.services.CommentService;
 import wolox.albumes.utils.ValidatorUtil;
 
+import java.io.UnsupportedEncodingException;
+
 @RestController
 public class CommentControllerImpl implements CommentController {
 
@@ -23,6 +25,11 @@ public class CommentControllerImpl implements CommentController {
             ResponseEntity validateUserId = ValidatorUtil.validateNumber("userId", userId);
             if(validateUserId.getStatusCode() != HttpStatus.OK) return validateUserId;
         }
-        return ResponseEntity.ok(commentService.getCommentsApplyingFilters(userId, name));
+        try {
+            return ResponseEntity.ok(commentService.getCommentsApplyingFilters(userId, name));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ocurrió un error al leer el parametro 'name'");
+        }
     }
 }

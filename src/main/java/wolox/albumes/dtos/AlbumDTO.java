@@ -1,23 +1,23 @@
 package wolox.albumes.dtos;
 
 public class AlbumDTO {
-    private Integer id;
-    private Integer userId;
+    private Long id;
+    private Long userId;
     private String title;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -28,16 +28,5 @@ public class AlbumDTO {
     public void setTitle(String title) {
         this.title = title;
     }
+
 }
-
-/*
-    idAlbumCompartido
-    idUsuarioOwner
-    usuariosAsociados: [
-                    { userId
-                       lectura
-                       escritura:
-                       }, ..
-                       ]
-
- */

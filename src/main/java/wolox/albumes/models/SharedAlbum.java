@@ -1,33 +1,39 @@
 package wolox.albumes.models;
 
-import java.util.List;
+import lombok.Data;
 
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+
+@Data
+@Entity
 public class SharedAlbum {
-    private Integer albumId;
-    private Integer userOwnerId;
-    private List<UserPermissions> userPermissionsList;
+    @EmbeddedId
+    private SharedAlbumId id;
+    private Boolean read;
+    private Boolean write;
 
-    public Integer getAlbumId() {
-        return albumId;
+    public Boolean getWrite() {
+        return write;
     }
 
-    public void setAlbumId(Integer albumId) {
-        this.albumId = albumId;
+    public void setWrite(Boolean write) {
+        this.write = write;
     }
 
-    public Integer getUserOwnerId() {
-        return userOwnerId;
+    public Boolean getRead() {
+        return read;
     }
 
-    public void setUserOwnerId(Integer userOwnerId) {
-        this.userOwnerId = userOwnerId;
+    public void setRead(Boolean read) {
+        this.read = read;
     }
 
-    public List<UserPermissions> getUserPermissionsList() {
-        return userPermissionsList;
+    public SharedAlbumId getId() {
+        return id;
     }
 
-    public void setUserPermissionsList(List<UserPermissions> userPermissionsList) {
-        this.userPermissionsList = userPermissionsList;
+    public void setId(SharedAlbumId id) {
+        this.id = id;
     }
 }

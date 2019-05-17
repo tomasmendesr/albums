@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import wolox.albumes.dtos.AlbumDTO;
-import wolox.albumes.services.UserService;
 import wolox.albumes.utils.APP_CONFIG;
 
 import java.util.Arrays;
@@ -21,8 +20,12 @@ public class AlbumClient {
         return Arrays.asList(restTemplate.getForObject(getAlbumesRequest(), AlbumDTO[].class));
     }
 
-    public List<AlbumDTO> getAlbumesByUserId(String userId) {
+    public List<AlbumDTO> getAlbumsByUserId(String userId) {
         return Arrays.asList(restTemplate.getForObject(getAlbumesByUserIdRequest(userId), AlbumDTO[].class));
+    }
+
+    public AlbumDTO getAlbumById(Long albumId) {
+        return restTemplate.getForObject(getAlbumByIdRequest(albumId), AlbumDTO.class);
     }
 
     private String getAlbumesRequest(){
@@ -31,6 +34,10 @@ public class AlbumClient {
 
     private String getAlbumesByUserIdRequest(String userId){
         String userIdFilter = "/" + userId;
-        return APP_CONFIG.EXTERNAL_SERVICE_URL + UserService.GET_USERS_REQUEST + userIdFilter + GET_ALBUMES_REQUEST;
+        return APP_CONFIG.EXTERNAL_SERVICE_URL + UserClient.GET_USERS_REQUEST + userIdFilter + GET_ALBUMES_REQUEST;
+    }
+
+    private String getAlbumByIdRequest(Long albumId){
+        return getAlbumesRequest() + "/" + albumId;
     }
 }

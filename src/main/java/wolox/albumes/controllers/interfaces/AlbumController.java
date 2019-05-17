@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public interface AlbumController {
 
     @GetMapping(value = {"/albumes"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity getAlbumes(@RequestParam(value = "userId", required = false) String userId);
+    ResponseEntity getAlbums(@RequestParam(value = "userId", required = false) Long userId);
 
 }
