@@ -29,3 +29,15 @@ public class AlbumDTO {
         this.title = title;
     }
 }
+
+/*
+    idAlbumCompartido
+    idUsuarioOwner
+    usuariosAsociados: [
+                    { userId
+                       lectura
+                       escritura:
+                       }, ..
+                       ]
+
+ */
