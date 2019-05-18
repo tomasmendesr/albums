@@ -60,9 +60,6 @@ public class SharedAlbumDataService {
 
     public List<User> getUsersFromSharedAlbumByPermissions(Long albumId, String permission) {
         List<User> users = new ArrayList<>();
-        List<SharedAlbumData> list1 = findSharedAlbumsDataByAlbumId(albumId);
-        List<SharedAlbumData> registrosConPErmiso = list1.stream().filter(sharedAlbumData -> PermissionsConstants.WRITE.equals(permission) ? sharedAlbumData.getWrite() : sharedAlbumData.getRead()).collect(Collectors.toList());
-
         List<Long> usersIds = findSharedAlbumsDataByAlbumId(albumId).stream()
                 .filter(sharedAlbumData -> PermissionsConstants.WRITE.equals(permission) ? sharedAlbumData.getWrite() : sharedAlbumData.getRead())
                 .map(sharedAlbumData -> sharedAlbumData.getUserId())
