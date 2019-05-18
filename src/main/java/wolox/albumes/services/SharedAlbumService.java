@@ -40,7 +40,7 @@ public class SharedAlbumService {
 
     public void saveSharedAlbum(SharedAlbumDTO newSharedAlbum) throws AlbumNotFoundException {
         checkAlbumNotFoundException(newSharedAlbum.getAlbumId());
-        repository.save(dtoToModel(newSharedAlbum));
+        save(dtoToModel(newSharedAlbum));
     }
 
     public AlbumDTO getSharedAlbumById(Long id) throws SharedAlbumNotFoundException {
@@ -63,6 +63,14 @@ public class SharedAlbumService {
                 .collect(Collectors.toList());
         usersIds.forEach(userId -> users.add(userService.getUserById(userId)));
         return users;
+    }
+
+    private void save(SharedAlbum album){
+        repository.save(album);
+    }
+
+    public SharedAlbum findByAlbumAndUserId(Long albumId, Long userId){
+        return repository.findByAlbumIdAndUserId(albumId, userId);
     }
 
     /********* UTILS *****************/

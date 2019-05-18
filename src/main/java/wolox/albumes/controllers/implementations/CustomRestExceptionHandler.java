@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import wolox.albumes.exceptions.AlbumNotFoundException;
+import wolox.albumes.exceptions.InvalidSharedAlbumObjectException;
 import wolox.albumes.utils.ApiError;
 import wolox.albumes.exceptions.SharedAlbumNotFoundException;
 import wolox.albumes.exceptions.UserNotFoundException;
@@ -117,6 +118,15 @@ public class CustomRestExceptionHandler  extends ResponseEntityExceptionHandler 
             NumberFormatException ex, WebRequest request) {
         ApiError apiError =
                 new ApiError(HttpStatus.BAD_REQUEST, "Ocurrió un error al leer el formato del numero", Arrays.asList(ex.getLocalizedMessage()));
+        return new ResponseEntity<>(
+                apiError, new HttpHeaders(), apiError.getStatus());
+    }
+
+    @ExceptionHandler({ InvalidSharedAlbumObjectException.class })
+    public ResponseEntity<Object> handleInvalidSharedAlbumObjectException(
+            InvalidSharedAlbumObjectException ex, WebRequest request) {
+        ApiError apiError =
+                new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), Arrays.asList(ex.getLocalizedMessage()));
         return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }

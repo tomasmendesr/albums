@@ -16,6 +16,7 @@ import wolox.albumes.repositories.SharedAlbumRepository;
 import wolox.albumes.services.*;
 import wolox.albumes.utils.APP_CONFIG;
 
+import javax.validation.constraints.AssertTrue;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -52,7 +53,24 @@ public class AlbumesApplicationTests {
 		album.setUserId(1L);
 		album.setAlbumId(1L);
 		album.setWrite(false);
+
+		SharedAlbum album1 = new SharedAlbum();
+		album1.setId(new SharedAlbumId(1L ,2L));
+		album1.setRead(true);
+		album1.setAlbumId(1L);
+		album1.setUserId(2L);
+		album1.setWrite(false);
+
+		SharedAlbum album2 = new SharedAlbum();
+		album2.setId(new SharedAlbumId(2L ,3L));
+		album2.setRead(true);
+		album2.setUserId(3L);
+		album2.setAlbumId(2L);
+		album2.setWrite(true);
+
 		repository.save(album);
+		repository.save(album1);
+		repository.save(album2);
 	}
 
 	@Test
@@ -114,6 +132,30 @@ public class AlbumesApplicationTests {
 	public void testGetUserById(){
 		UserDTO user = userService.getUserById(2L);
 		Assert.assertTrue(user != null && user.getId() == 2L);
+	}
+
+	@Test
+	public void testFindAllSharedAlbums(){
+		List<AlbumDTO> albums = sharedAlbumService.findAllSharedAlbums();
+		Assert.assertEquals(3, albums.size(), 0);
+	}
+
+	@Test
+	public void testFindSharedAlbumByAlbumAndUserId(){
+		SharedAlbum sharedAlbum = sharedAlbumService.findByAlbumAndUserId(1L, 1L);
+		Assert.assertTrue(sharedAlbum != null && sharedAlbum.getUserId() != null && sharedAlbum.getAlbumId() != null);
+	}
+
+	@Test
+	public void testSaveNewSharedAlbum(){
+		SharedAlbumDTO sharedAlbumDTO = new SharedAlbumDTO();
+		sharedAlbumDTO.setAlbumId(4L);
+		sharedAlbumDTO.setUserId(3L);
+		sharedAlbumDTO.setRead(false);
+		sharedAlbumDTO.setWrite(true);
+		sharedAlbumService.saveSharedAlbum(sharedAlbumDTO);
+		Assert.assertEquals(4, sharedAlbumService.findAllSharedAlbums().size(), 0);
+		repository.delete(repository.findByAlbumIdAndUserId(4L, 3L));
 	}
 
 

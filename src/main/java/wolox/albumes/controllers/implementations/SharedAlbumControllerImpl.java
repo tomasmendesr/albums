@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import wolox.albumes.controllers.interfaces.SharedAlbumController;
 import wolox.albumes.dtos.SharedAlbumDTO;
 import wolox.albumes.exceptions.AlbumNotFoundException;
+import wolox.albumes.exceptions.InvalidSharedAlbumObjectException;
 import wolox.albumes.exceptions.SharedAlbumNotFoundException;
 import wolox.albumes.services.SharedAlbumService;
 import wolox.albumes.utils.PermissionsConstants;
@@ -26,6 +27,7 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
 
     @Override
     public ResponseEntity saveSharedAlbumPermissions(SharedAlbumDTO newSharedAlbum) {
+        validateSharedAlbumObject(newSharedAlbum);
         sharedAlbumService.saveSharedAlbum(newSharedAlbum);
         return ResponseEntity.ok("Permisos de usuario guardados sobre el album con id " + newSharedAlbum.getAlbumId());
     }
@@ -33,6 +35,7 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
     @Override
     public ResponseEntity saveSharedAlbumPermissionsList(List<SharedAlbumDTO> newSharedAlbumList) {
         if(newSharedAlbumList == null || newSharedAlbumList.size() == 0) return ResponseEntity.badRequest().body("No se recibió ningún registro");
+        newSharedAlbumList.forEach(n -> validateSharedAlbumObject(n));
         sharedAlbumService.saveSharedAlbumList(newSharedAlbumList);
         return ResponseEntity.ok("Permisos de usuario guardados");
     }
@@ -49,4 +52,15 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
         }
         return ResponseEntity.ok(sharedAlbumService.getUsersFromSharedAlbumByPermissions(id, permission));
     }
+
+    public void validateSharedAlbumObject(SharedAlbumDTO sharedAlbumDTO){
+        String errorMsg = null;
+        if(sharedAlbumDTO.getAlbumId() == null) errorMsg = "Es necesario indicar el id del album";
+        if(sharedAlbumDTO.getUserId() == null) errorMsg = "Es necesario indicar el id del usuario";
+        if(sharedAlbumDTO.getRead() == null) errorMsg = "Es necesario indicar el valor del permiso de lectura";
+        if(sharedAlbumDTO.getWrite() == null)  errorMsg = "Es necesario indicar el valor del permiso de escritura";
+        if(errorMsg != null) throw new InvalidSharedAlbumObjectException(errorMsg);
+    }
+
+
 }

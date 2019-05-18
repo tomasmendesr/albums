@@ -10,4 +10,6 @@ import java.util.List;
 @Transactional
 public interface SharedAlbumRepository extends JpaRepository<SharedAlbum, SharedAlbumId> {
     List<SharedAlbum> findSharedAlbumByAlbumId(Long albumId);
+
+    SharedAlbum findByAlbumIdAndUserId(Long albumId, Long userId);
 }

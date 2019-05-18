@@ -2,6 +2,7 @@ package wolox.albumes.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import wolox.albumes.clients.CommentClient;
 import wolox.albumes.dtos.CommentDTO;
 import wolox.albumes.dtos.UserDTO;
@@ -26,8 +27,8 @@ public class CommentService {
     }
 
     public List<CommentDTO> getCommentsApplyingFilters(Long userId, String name) throws UnsupportedEncodingException {
-        UserDTO user = ValidatorUtil.filterApplied(userId) ? userService.getUserById(userId) : null;
-        boolean nameFilterApplied = ValidatorUtil.filterApplied(name);
+        UserDTO user = userId != null ? userService.getUserById(userId) : null;
+        boolean nameFilterApplied = name != null && StringUtils.hasText(name);
         if(nameFilterApplied) name = URLDecoder.decode(name, StandardCharsets.UTF_8.name());
         String finalNameDecoded = name;
         List<CommentDTO> comments = getComments();
