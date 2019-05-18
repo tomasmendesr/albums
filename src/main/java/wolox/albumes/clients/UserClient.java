@@ -25,11 +25,11 @@ public class UserClient {
         return APP_CONFIG.EXTERNAL_SERVICE_URL + GET_USERS_REQUEST;
     }
 
-    public UserDTO getUserById(String userId) {
+    public UserDTO getUserById(Long userId) {
         return restTemplate.getForObject(getUserByIdRequest(userId), UserDTO.class);
     }
 
-    private String getUserByIdRequest(String userId){
+    private String getUserByIdRequest(Long userId){
         return getUsersRequest() + "/" + userId;
     }
 }

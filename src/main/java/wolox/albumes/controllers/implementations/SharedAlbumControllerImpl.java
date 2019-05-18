@@ -9,6 +9,7 @@ import wolox.albumes.dtos.SharedAlbumDTO;
 import wolox.albumes.exceptions.AlbumNotFoundException;
 import wolox.albumes.exceptions.SharedAlbumNotFoundException;
 import wolox.albumes.services.SharedAlbumService;
+import wolox.albumes.utils.PermissionsConstants;
 
 import java.util.List;
 
@@ -25,33 +26,27 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
 
     @Override
     public ResponseEntity saveSharedAlbumPermissions(SharedAlbumDTO newSharedAlbum) {
-        try {
-            sharedAlbumService.saveSharedAlbum(newSharedAlbum);
-            return ResponseEntity.ok("Album guardado");
-        } catch (AlbumNotFoundException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        sharedAlbumService.saveSharedAlbum(newSharedAlbum);
+        return ResponseEntity.ok("Permisos de usuario guardados sobre el album con id " + newSharedAlbum.getAlbumId());
     }
 
     @Override
     public ResponseEntity saveSharedAlbumPermissionsList(List<SharedAlbumDTO> newSharedAlbumList) {
-        try {
-            if(newSharedAlbumList == null || newSharedAlbumList.size() == 0) return ResponseEntity.badRequest().body("No se recibió ningún registro");
-            sharedAlbumService.saveSharedAlbumList(newSharedAlbumList);
-            return ResponseEntity.ok("Lista guardada");
-        } catch (AlbumNotFoundException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+        if(newSharedAlbumList == null || newSharedAlbumList.size() == 0) return ResponseEntity.badRequest().body("No se recibió ningún registro");
+        sharedAlbumService.saveSharedAlbumList(newSharedAlbumList);
+        return ResponseEntity.ok("Permisos de usuario guardados");
     }
 
     @Override
     public ResponseEntity getSharedAlbumById(Long id) {
-        try {
-            return ResponseEntity.ok(sharedAlbumService.getSharedAlbumById(id));
-        } catch (SharedAlbumNotFoundException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        } catch (NumberFormatException e){
-            return ResponseEntity.badRequest().body("El id del album debe ser un valor numerico");
+        return ResponseEntity.ok(sharedAlbumService.getSharedAlbumById(id));
+    }
+
+    @Override
+    public ResponseEntity getUsersFromSharedAlbumByPermissions(Long id, String permission) {
+        if (permission == null || (!PermissionsConstants.READ.equals(permission) && !PermissionsConstants.WRITE.equals(permission))) {
+            return ResponseEntity.badRequest().body("Los unicos valores validos para los permisos son: read/write");
         }
+        return ResponseEntity.ok(sharedAlbumService.getUsersFromSharedAlbumByPermissions(id, permission));
     }
 }

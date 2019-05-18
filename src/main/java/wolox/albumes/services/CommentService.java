@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import wolox.albumes.clients.CommentClient;
 import wolox.albumes.dtos.CommentDTO;
 import wolox.albumes.dtos.UserDTO;
-import wolox.albumes.utils.ValidatorUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -26,7 +25,7 @@ public class CommentService {
         return commentClient.getComments();
     }
 
-    public List<CommentDTO> getCommentsApplyingFilters(String userId, String name) throws UnsupportedEncodingException {
+    public List<CommentDTO> getCommentsApplyingFilters(Long userId, String name) throws UnsupportedEncodingException {
         UserDTO user = ValidatorUtil.filterApplied(userId) ? userService.getUserById(userId) : null;
         boolean nameFilterApplied = ValidatorUtil.filterApplied(name);
         if(nameFilterApplied) name = URLDecoder.decode(name, StandardCharsets.UTF_8.name());

@@ -25,9 +25,9 @@ La solución de repositorio de Spring Data hace posible eludir detalles específ
 ### End Points
 Todas las respuestas se encuentran en formato JSON.
 ##### Metodos GET
-- Obtener todos usuarios
+- Obtener todos los usuarios
     - `localhost:8080/users`
-- Obtener todos albumes
+- Obtener todos los albumes
     - `localhost:8080/albums`
 - Obtener albumes de un usuario especifico
     - `localhost:8080/albums?userId=<userIdValue>`
@@ -47,6 +47,9 @@ Todas las respuestas se encuentran en formato JSON.
     - `localhost:8080/sharedAlbums`
 - Obtener un album compartido especifico
     - `localhost:8080/sharedAlbums/<albumId>`
+- Obtener los usuarios que poseen un permiso especifico sobre un album compartido determinado
+    - `localhost:8080/sharedAlbums/<albumId>/<permiso>`
+    - Los valores validos para el permiso son: read/write
     
 ##### Metodos POST
 Tanto para el alta como el update de registros de albumes compartidos se maneja el mismo formato:

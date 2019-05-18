@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CommentController {
 
     @GetMapping(value = {"/comments"}, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity getComments(@RequestParam(value = "userId", required = false) String userId,
+    ResponseEntity getComments(@RequestParam(value = "userId", required = false) Long userId,
                               @RequestParam(value = "name", required = false) String name);
 }

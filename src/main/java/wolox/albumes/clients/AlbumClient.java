@@ -20,7 +20,7 @@ public class AlbumClient {
         return Arrays.asList(restTemplate.getForObject(getAlbumesRequest(), AlbumDTO[].class));
     }
 
-    public List<AlbumDTO> getAlbumsByUserId(String userId) {
+    public List<AlbumDTO> getAlbumsByUserId(Long userId) {
         return Arrays.asList(restTemplate.getForObject(getAlbumesByUserIdRequest(userId), AlbumDTO[].class));
     }
 
@@ -32,7 +32,7 @@ public class AlbumClient {
         return APP_CONFIG.EXTERNAL_SERVICE_URL + GET_ALBUMES_REQUEST;
     }
 
-    private String getAlbumesByUserIdRequest(String userId){
+    private String getAlbumesByUserIdRequest(Long userId){
         String userIdFilter = "/" + userId;
         return APP_CONFIG.EXTERNAL_SERVICE_URL + UserClient.GET_USERS_REQUEST + userIdFilter + GET_ALBUMES_REQUEST;
     }

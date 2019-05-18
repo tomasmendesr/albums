@@ -17,7 +17,7 @@ public class AlbumService {
         return albumClient.getAlbums();
     }
 
-    public List<AlbumDTO> getAlbumsByUserId(String userId) {
+    public List<AlbumDTO> getAlbumsByUserId(Long userId) {
         return albumClient.getAlbumsByUserId(userId);
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wolox.albumes.clients.UserClient;
 import wolox.albumes.dtos.UserDTO;
+import wolox.albumes.exceptions.UserNotFoundException;
 
 import java.util.List;
 
@@ -17,13 +18,13 @@ public class UserService {
         return userClient.getUsers();
     }
 
-    public UserDTO getUserById(String userId) {
+    public UserDTO getUserById(Long userId) {
+        if(!userExists(userId)) throw new UserNotFoundException(userId);
         return userClient.getUserById(userId);
     }
 
     public Boolean userExists(Long userId){
-        return false;
-//        return userClient.getUserById(userId);
+        return userClient.getUserById(userId).getId() != null;
     }
 
 }
