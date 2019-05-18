@@ -9,21 +9,21 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "SharedAlbum")
-public class SharedAlbum {
+@Table(name = "SharedAlbumData")
+public class SharedAlbumData {
 
-    private SharedAlbumId id;
+    private SharedAlbumDataId id;
     private Long albumId;
     private Long userId;
     private Boolean read;
     private Boolean write;
 
     @EmbeddedId
-    public SharedAlbumId getId() {
+    public SharedAlbumDataId getId() {
         return id;
     }
 
-    public void setId(SharedAlbumId id) {
+    public void setId(SharedAlbumDataId id) {
         this.id = id;
     }
 
@@ -45,7 +45,7 @@ public class SharedAlbum {
         this.read = read;
     }
 
-    @Column(name = "userId", insertable = false, updatable = false)
+    @Column(name = "albumId", insertable = false, updatable = false)
     public Long getAlbumId() {
         return albumId;
     }

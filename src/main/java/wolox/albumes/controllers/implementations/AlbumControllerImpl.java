@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.albumes.controllers.interfaces.AlbumController;
-import wolox.albumes.dtos.AlbumDTO;
+import wolox.albumes.models.Album;
 import wolox.albumes.services.AlbumService;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class AlbumControllerImpl implements AlbumController {
     }
 
     private ResponseEntity getAlbumsByUserId(Long userId) {
-        List<AlbumDTO> albumes = albumService.getAlbumsByUserId(userId);
+        List<Album> albumes = albumService.getAlbumsByUserId(userId);
         return ResponseEntity.ok(albumes);
     }
 

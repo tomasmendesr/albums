@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import wolox.albumes.exceptions.AlbumNotFoundException;
-import wolox.albumes.exceptions.InvalidSharedAlbumObjectException;
+import wolox.albumes.exceptions.AlbumAppException;
 import wolox.albumes.utils.ApiError;
-import wolox.albumes.exceptions.SharedAlbumNotFoundException;
-import wolox.albumes.exceptions.UserNotFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -86,27 +83,9 @@ public class CustomRestExceptionHandler  extends ResponseEntityExceptionHandler 
                 apiError, new HttpHeaders(), apiError.getStatus());
     }
 
-    @ExceptionHandler({ AlbumNotFoundException.class })
+    @ExceptionHandler({ AlbumAppException.class })
     public ResponseEntity<Object> handleAlbumNotFoundException(
-            AlbumNotFoundException ex, WebRequest request) {
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Arrays.asList(ex.getMessage()));
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    @ExceptionHandler({ SharedAlbumNotFoundException.class })
-    public ResponseEntity<Object> handleSharedAlbumNotFoundException(
-            SharedAlbumNotFoundException ex, WebRequest request) {
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Arrays.asList(ex.getMessage()));
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    @ExceptionHandler({ UserNotFoundException.class })
-    public ResponseEntity<Object> handleUserNotFoundException(
-            UserNotFoundException ex, WebRequest request) {
+            AlbumAppException ex, WebRequest request) {
         ApiError apiError =
                 new ApiError(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), Arrays.asList(ex.getMessage()));
         return new ResponseEntity<>(
@@ -117,16 +96,7 @@ public class CustomRestExceptionHandler  extends ResponseEntityExceptionHandler 
     public ResponseEntity<Object> handleNumberFormatException(
             NumberFormatException ex, WebRequest request) {
         ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, "Ocurrió un error al leer el formato del numero", Arrays.asList(ex.getLocalizedMessage()));
-        return new ResponseEntity<>(
-                apiError, new HttpHeaders(), apiError.getStatus());
-    }
-
-    @ExceptionHandler({ InvalidSharedAlbumObjectException.class })
-    public ResponseEntity<Object> handleInvalidSharedAlbumObjectException(
-            InvalidSharedAlbumObjectException ex, WebRequest request) {
-        ApiError apiError =
-                new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), Arrays.asList(ex.getLocalizedMessage()));
+                new ApiError(HttpStatus.BAD_REQUEST, "Ocurrió un error al intentar parsear un numero. Verificar formato", Arrays.asList(ex.getLocalizedMessage()));
         return new ResponseEntity<>(
                 apiError, new HttpHeaders(), apiError.getStatus());
     }

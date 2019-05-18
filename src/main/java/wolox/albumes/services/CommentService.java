@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import wolox.albumes.clients.CommentClient;
-import wolox.albumes.dtos.CommentDTO;
-import wolox.albumes.dtos.UserDTO;
+import wolox.albumes.models.Comment;
+import wolox.albumes.models.User;
+import wolox.albumes.utils.DozerHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -22,21 +23,31 @@ public class CommentService {
     @Autowired
     private CommentClient commentClient;
 
-    public List<CommentDTO> getComments(){
-        return commentClient.getComments();
+    public List<Comment> getComments(){
+        return DozerHelper.mapList(commentClient.getComments(), Comment.class);
     }
 
-    public List<CommentDTO> getCommentsApplyingFilters(Long userId, String name) throws UnsupportedEncodingException {
-        UserDTO user = userId != null ? userService.getUserById(userId) : null;
-        boolean nameFilterApplied = name != null && StringUtils.hasText(name);
-        if(nameFilterApplied) name = URLDecoder.decode(name, StandardCharsets.UTF_8.name());
-        String finalNameDecoded = name;
-        List<CommentDTO> comments = getComments();
-        List<CommentDTO> commentsResult = comments.stream()
-                .filter(comment -> !nameFilterApplied || finalNameDecoded.equals(comment.getName()))
-                .filter(comment -> user == null || user.getEmail().equals(comment.getEmail())) // TODO - ningun mail coincide
+    public List<Comment> getCommentsApplyingFilters(Long userId, String name) {
+        return getComments().stream()
+                .filter(comment -> filterByEqualsName(name, comment))
+                .filter(comment -> filterByUser(userId, comment)) // TODO - ningun mail coincide
                 .collect(Collectors.toList());
-        return commentsResult;
+    }
+
+    private boolean filterByEqualsName(String name, Comment comment) {
+        try {
+            boolean nameFilterApplied = name != null && StringUtils.hasText(name);
+            if(nameFilterApplied) name = URLDecoder.decode(name, StandardCharsets.UTF_8.name());
+            return !nameFilterApplied || name.equals(comment.getName());
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean filterByUser(Long userId, Comment comment){
+        User user = userId != null ? userService.getUserById(userId) : null;
+        return user == null || user.getEmail().equals(comment.getEmail());
     }
 
 }

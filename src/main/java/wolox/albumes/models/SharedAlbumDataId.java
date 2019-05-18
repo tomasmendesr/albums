@@ -6,17 +6,17 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class SharedAlbumId implements Serializable {
+public class SharedAlbumDataId implements Serializable {
     @Column(name = "userId")
     private Long userId;
 
     @Column(name = "albumId")
     private Long albumId;
 
-    public SharedAlbumId() {
+    public SharedAlbumDataId() {
     }
 
-    public SharedAlbumId(Long albumId, Long userId) {
+    public SharedAlbumDataId(Long albumId, Long userId) {
         this.albumId = albumId;
         this.userId = userId;
     }
@@ -40,8 +40,8 @@ public class SharedAlbumId implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SharedAlbumId)) return false;
-        SharedAlbumId that = (SharedAlbumId) o;
+        if (!(o instanceof SharedAlbumDataId)) return false;
+        SharedAlbumDataId that = (SharedAlbumDataId) o;
         return Objects.equals(getUserId(), that.getUserId()) &&
                 Objects.equals(getAlbumId(), that.getAlbumId());
     }

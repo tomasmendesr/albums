@@ -3,7 +3,8 @@ package wolox.albumes.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wolox.albumes.clients.AlbumClient;
-import wolox.albumes.dtos.AlbumDTO;
+import wolox.albumes.models.Album;
+import wolox.albumes.utils.DozerHelper;
 
 import java.util.List;
 
@@ -13,11 +14,15 @@ public class AlbumService {
     @Autowired
     private AlbumClient albumClient;
 
-    public List<AlbumDTO> getAlbums(){
-        return albumClient.getAlbums();
+    public List<Album> getAlbums(){
+        return DozerHelper.mapList(albumClient.getAlbums(), Album.class);
     }
 
-    public List<AlbumDTO> getAlbumsByUserId(Long userId) {
-        return albumClient.getAlbumsByUserId(userId);
+    public List<Album> getAlbumsByUserId(Long userId) {
+        return DozerHelper.mapList(albumClient.getAlbumsByUserId(userId), Album.class);
+    }
+
+    public Album getAlbumById(Long id) {
+        return DozerHelper.map(albumClient.getAlbumById(id), Album.class);
     }
 }
