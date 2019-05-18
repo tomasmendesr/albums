@@ -1,7 +1,3 @@
-https://spring.io/guides/tutorials/rest/
-https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories
-https://reflectoring.io/spring-boot-data-jpa-test/
-
 # Albums Application
 
 API REST Application made with Java 8 & Spring Boot
@@ -68,4 +64,4 @@ Es decir, las siguientes solicitudes necesitan ese objeto en el body del request
     - `localhost:8080/sharedAlbums/saveList`
     - El body del request debe contener una lista de objetos que deben respertar el formato indicado anteriormente.
     
-A través de los dos métodos POST es posible modificar permisos de un usuario. Simplemente se debe enviar el objeto indicando el id del usuario, el id del album y sus nuevos permisos.
+A través de los dos métodos POST es posible modificar los permisos de un usuario. Simplemente se debe enviar el objeto indicando el id del usuario, el id del album y sus nuevos permisos.
