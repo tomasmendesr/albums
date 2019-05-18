@@ -48,7 +48,7 @@ public class AlbumesApplicationTests {
 
 	@Before
 	public void setUp(){
-		MockitoAnnotations.initMocks(this);
+//		MockitoAnnotations.initMocks(this);
 
 		SharedAlbumDTO album1 = new SharedAlbumDTO();
 		album1.setAlbumId(1L);
@@ -106,7 +106,7 @@ public class AlbumesApplicationTests {
 	}
 
 	@Test
-	public void testGetCommentsWithFilterUserId() throws UnsupportedEncodingException {
+	public void testGetCommentsWithFilterUserId() {
 		List<Comment> comments = commentService.getCommentsApplyingFilters(1L, null);
 		// No coincide ningun email de los comentarios con los de los usuarios
 		Assert.assertEquals(0, comments.size(), 0);
@@ -153,9 +153,15 @@ public class AlbumesApplicationTests {
 	}
 
 	@Test
-	public void testGetUsersFromSharedAlbumByPermissions(){
+	public void testGetUsersFromSharedAlbumWithReadPermissions(){
 		List<User> usersWithReadPermissionsOnAlbumWithId1 = sharedAlbumDataService.getUsersFromSharedAlbumByPermissions(1L, PermissionsConstants.READ);
 		Assert.assertEquals(2, usersWithReadPermissionsOnAlbumWithId1.size(), 0);
+	}
+
+	@Test
+	public void testGetUsersFromSharedAlbumWithWritePermissions(){
+		List<User> usersWithWritePermissionsOnAlbumWithId1 = sharedAlbumDataService.getUsersFromSharedAlbumByPermissions(1L, PermissionsConstants.WRITE);
+		Assert.assertEquals(1, usersWithWritePermissionsOnAlbumWithId1.size(), 0);
 	}
 
 
