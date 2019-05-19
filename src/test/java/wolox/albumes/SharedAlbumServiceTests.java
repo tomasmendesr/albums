@@ -52,9 +52,9 @@ public class SharedAlbumServiceTests {
 		album.setTitle("quidem molestiae enim");
 
 		Album album2 = new Album();
-		album.setId(2L);
-		album.setUserId(1L);
-		album.setTitle("sunt qui excepturi placeat culpa");
+		album2.setId(2L);
+		album2.setUserId(1L);
+		album2.setTitle("sunt qui excepturi placeat culpa");
 
 		SharedAlbumData sharedAlbumData1 = new SharedAlbumData();
 		sharedAlbumData1.setId(new SharedAlbumDataId(1L, 1L));
@@ -90,7 +90,7 @@ public class SharedAlbumServiceTests {
 		user2.setEmail("Shanna@melissa.tv");
 
 		when(albumService.getAlbums()).thenReturn(Arrays.asList(restTemplate.getForObject(AlbumClient.EXTERNAL_SERVICE_URL + AlbumClient.GET_ALBUMES_REQUEST, Album[].class)));
-		when(albumService.getAlbumById(any())).thenReturn(album); //thenAnswer(i -> (Long) i.getArguments()[0] == 1L ? album : album2);
+		when(albumService.getAlbumById(any())).thenAnswer(i -> (Long) i.getArguments()[0] == 1L ? album : album2);
 		when(sharedAlbumDataRepository.findAll()).thenReturn(Arrays.asList(sharedAlbumData1, sharedAlbumData2, sharedAlbumData3));
 		when(sharedAlbumDataRepository.findByAlbumIdAndUserId(any(), any())).thenAnswer(i -> (Long) i.getArguments()[0] == 1L ? sharedAlbumData1 : sharedAlbumData2);
 		when(sharedAlbumDataRepository.findSharedAlbumDataByAlbumId(any())).thenReturn(Arrays.asList(sharedAlbumData1, sharedAlbumData2));

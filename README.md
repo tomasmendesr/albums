@@ -1,7 +1,3 @@
-https://spring.io/guides/tutorials/rest/
-https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories
-https://reflectoring.io/spring-boot-data-jpa-test/
-
 # Albums Application
 
 API REST Application made with Java 8 & Spring Boot
@@ -22,6 +18,8 @@ Decidí utilizar esta base de datos en memoria con el fin de que el testeo de la
 
 La solución de repositorio de Spring Data hace posible eludir detalles específicos del almacén de datos y, en cambio, resolver la mayoría de los problemas utilizando terminología específica del dominio.
 
+Además, si en un futuro se desease incoporar una base de datos para persistir la informacion sería sencillo realizar la integración ya que solo se debe modificar la clase SharedAlbumDataRepository para que las querys se realicen sobre la nueva BBDD incorporada. 
+
 ### End Points
 Todas las respuestas se encuentran en formato JSON.
 ##### Metodos GET
@@ -35,7 +33,7 @@ Todas las respuestas se encuentran en formato JSON.
     - `localhost:8080/photos`
 - Obtener todos los comentarios
     - `localhost:8080/comments`
-- Obtener los comentarios de un usuario especifico
+- Obtener los comentarios que realizó un usuario especifico
     - `localhost:8080/comments?userId=<userIdValue>`
     - En este punto me gustaría aclarar que no detecté de qué manera se relaciona un comentario con un usuario en los datos obtenidos de la aplicación externa https://jsonplaceholder.typicode.com/.
     Un comentario posee el atributo 'email', al igual que un usuario. Por lo tanto, el filtro que apliqué es que el email del comentario coincida con el mail del usuario recibido por id en el request.

@@ -8,6 +8,7 @@ import wolox.albumes.models.User;
 import wolox.albumes.utils.DozerHelper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -20,12 +21,18 @@ public class UserService {
     }
 
     public User getUserById(Long userId) {
-        if(!userExists(userId)) throw new UserNotFoundException(userId);
+        checkIfUserExistsAndThrowUserNotFoundException(userId);
         return DozerHelper.map(userClient.getUserById(userId), User.class);
     }
 
     public Boolean userExists(Long userId){
-        return userClient.getUserById(userId).getId() != null;
+        // El servicio externo responde 404 si recibe un id de usuario inexistente.
+        // Por lo tanto prefiero verificarlo en mi modelo y poder lanzar una excepcion propia (UserNotFoundException)
+        return getUsers().stream().map(User::getId).collect(Collectors.toList()).contains(userId);
+    }
+
+    public void checkIfUserExistsAndThrowUserNotFoundException(Long userId){
+        if(!userExists(userId)) throw new UserNotFoundException(userId);
     }
 
 

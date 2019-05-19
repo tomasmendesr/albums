@@ -48,7 +48,7 @@ public class SharedAlbumDataService {
     }
 
     public void saveSharedAlbum(SharedAlbumDTO newSharedAlbum) {
-        checkAlbumNotFoundException(newSharedAlbum.getAlbumId());
+        albumService.checkIfAlbumExistsOrThrowAlbumNotFoundException(newSharedAlbum.getAlbumId());
         save(dtoToModel(newSharedAlbum));
     }
 
@@ -57,8 +57,8 @@ public class SharedAlbumDataService {
         return albumService.getAlbumById(id);
     }
 
-    public void saveSharedAlbumList(List<SharedAlbumDTO> newSharedAlbumList) throws AlbumNotFoundException {
-        checkAlbumNotFoundException(newSharedAlbumList.get(0).getAlbumId());
+    public void saveSharedAlbumList(List<SharedAlbumDTO> newSharedAlbumList) {
+        albumService.checkIfAlbumExistsOrThrowAlbumNotFoundException(newSharedAlbumList.get(0).getAlbumId());
         newSharedAlbumList.forEach(dto -> save(dtoToModel(dto)));
     }
 
@@ -92,15 +92,6 @@ public class SharedAlbumDataService {
 
     private List<SharedAlbumData> findSharedAlbumsDataByAlbumId(Long id){
         return repository.findSharedAlbumDataByAlbumId(id);
-    }
-
-    private boolean isAValidAlbum(Album album){
-        return album.getId() != null;
-    }
-
-    public void checkAlbumNotFoundException(Long id) {
-        Album album = albumService.getAlbumById(id);
-        if(!isAValidAlbum(album)) throw new AlbumNotFoundException(id);
     }
 
 }
