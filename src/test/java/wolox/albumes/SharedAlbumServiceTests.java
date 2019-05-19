@@ -28,21 +28,11 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AlbumesApplicationTests {
+public class SharedAlbumServiceTests {
 
 
 	@Autowired
 	RestTemplate restTemplate;
-	@Autowired
-	CommentService commentService;
-	@Autowired
-	PhotoService photoService;
-	@Autowired
-	PostService postService;
-	@Autowired
-	AlbumService albumService;
-	@Autowired
-	UserService userService;
 	@Autowired
 	SharedAlbumDataService sharedAlbumDataService;
 
@@ -89,61 +79,6 @@ public class AlbumesApplicationTests {
 	public void testGetSharedAlbumById(){
 		Album album = sharedAlbumDataService.getSharedAlbumById(1L);
 		Assert.assertTrue(album != null && album.getId() == 1L);
-	}
-
-	@Test
-	public void testGetComments(){
-		List<Comment> commentsFromService = commentService.getComments();
-		CommentDTO[] commentsFromExternalService = restTemplate.getForObject(GenericRestClient.EXTERNAL_SERVICE_URL + CommentClient.GET_COMMENTS_REQUEST, CommentDTO[].class);
-		Assert.assertEquals(commentsFromExternalService.length, commentsFromService.size(), 0);
-	}
-
-	@Test
-	public void testGetCommentsWithFilterName() throws UnsupportedEncodingException {
-		String nameFilter = "id labore ex et quam laborum";
-		List<Comment> comments = commentService.getCommentsApplyingFilters(null, URLEncoder.encode(nameFilter, StandardCharsets.UTF_8.name()));
-		Assert.assertEquals(1, comments.size(), 0);
-	}
-
-	@Test
-	public void testGetCommentsWithFilterUserId() {
-		List<Comment> comments = commentService.getCommentsApplyingFilters(1L, null);
-		// No coincide ningun email de los comentarios con los de los usuarios
-		Assert.assertEquals(0, comments.size(), 0);
-	}
-
-	@Test
-	public void testGetPhotos(){
-		List<Photo> fromMyService = photoService.getPhotos();
-		PhotoDTO[] fromExternalService = restTemplate.getForObject(GenericRestClient.EXTERNAL_SERVICE_URL + PhotoClient.GET_PHOTOS_REQUEST, PhotoDTO[].class);
-		Assert.assertEquals(fromExternalService.length, fromMyService.size(), 0);
-	}
-
-	@Test
-	public void testGetAlbums(){
-		List<Album> fromMyService = albumService.getAlbums();
-		AlbumDTO[] fromExternalService = restTemplate.getForObject(GenericRestClient.EXTERNAL_SERVICE_URL + AlbumClient.GET_ALBUMES_REQUEST, AlbumDTO[].class);
-		Assert.assertEquals(fromExternalService.length, fromMyService.size(), 0);
-	}
-
-	@Test
-	public void testGetPosts(){
-		List<Post> fromMyService = postService.getPosts();
-		PostDTO[] fromExternalService = restTemplate.getForObject(GenericRestClient.EXTERNAL_SERVICE_URL + PostClient.GET_POSTS_REQUEST, PostDTO[].class);
-		Assert.assertEquals(fromExternalService.length, fromMyService.size(), 0);
-	}
-
-	@Test
-	public void testGetUsers(){
-		List<User> fromMyService = userService.getUsers();
-		UserDTO[] fromExternalService = restTemplate.getForObject(GenericRestClient.EXTERNAL_SERVICE_URL + UserClient.GET_USERS_REQUEST, UserDTO[].class);
-		Assert.assertEquals(fromExternalService.length, fromMyService.size(), 0);
-	}
-
-	@Test
-	public void testGetUserById(){
-		User user = userService.getUserById(2L);
-		Assert.assertTrue(user != null && user.getId() == 2L);
 	}
 
 	@Test

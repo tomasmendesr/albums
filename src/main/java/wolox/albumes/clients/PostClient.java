@@ -19,7 +19,7 @@ public class PostClient extends GenericRestClient {
         return Arrays.asList(restTemplate.getForObject(getPostsRequest(), PostDTO[].class));
     }
 
-    private String getPostsRequest(){
+    public String getPostsRequest(){
         return EXTERNAL_SERVICE_URL + GET_POSTS_REQUEST;
     }
 }
