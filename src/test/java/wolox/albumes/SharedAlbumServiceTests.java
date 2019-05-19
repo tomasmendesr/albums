@@ -7,10 +7,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import wolox.albumes.clients.*;
@@ -20,11 +20,11 @@ import wolox.albumes.repositories.SharedAlbumDataRepository;
 import wolox.albumes.services.*;
 import wolox.albumes.utils.PermissionsConstants;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,38 +33,72 @@ public class SharedAlbumServiceTests {
 
 	@Autowired
 	RestTemplate restTemplate;
-	@Autowired
+	@Mock
+	AlbumService albumService;
+	@Mock
+	SharedAlbumDataRepository sharedAlbumDataRepository;
+	@Mock
+	UserService userService;
+	@InjectMocks
 	SharedAlbumDataService sharedAlbumDataService;
 
 	@Before
 	public void setUp(){
-//		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.initMocks(this);
 
-		SharedAlbumDTO album1 = new SharedAlbumDTO();
-		album1.setAlbumId(1L);
-		album1.setUserId(1L);
-		album1.setRead(true);
-		album1.setWrite(true);
+		Album album = new Album();
+		album.setId(1L);
+		album.setUserId(1L);
+		album.setTitle("quidem molestiae enim");
 
-		SharedAlbumDTO album2 = new SharedAlbumDTO();
-		album2.setAlbumId(1L);
-		album2.setUserId(2L);
-		album2.setRead(true);
-		album2.setWrite(false);
+		Album album2 = new Album();
+		album.setId(2L);
+		album.setUserId(1L);
+		album.setTitle("sunt qui excepturi placeat culpa");
 
-		SharedAlbumDTO album3 = new SharedAlbumDTO();
-		album3.setAlbumId(2L);
-		album3.setUserId(3L);
-		album3.setRead(true);
-		album3.setWrite(false);
+		SharedAlbumData sharedAlbumData1 = new SharedAlbumData();
+		sharedAlbumData1.setId(new SharedAlbumDataId(1L, 1L));
+		sharedAlbumData1.setAlbumId(1L);
+		sharedAlbumData1.setUserId(1L);
+		sharedAlbumData1.setRead(true);
+		sharedAlbumData1.setWrite(true);
 
-		sharedAlbumDataService.saveSharedAlbumList(Arrays.asList(album1, album2));
-		sharedAlbumDataService.saveSharedAlbum(album3);
+		SharedAlbumData sharedAlbumData2 = new SharedAlbumData();
+		sharedAlbumData2.setId(new SharedAlbumDataId(1L,2L));
+		sharedAlbumData2.setAlbumId(1L);
+		sharedAlbumData2.setUserId(2L);
+		sharedAlbumData2.setRead(true);
+		sharedAlbumData2.setWrite(false);
+
+		SharedAlbumData sharedAlbumData3 = new SharedAlbumData();
+		sharedAlbumData2.setId(new SharedAlbumDataId(2L,3L));
+		sharedAlbumData2.setAlbumId(2L);
+		sharedAlbumData2.setUserId(3L);
+		sharedAlbumData2.setRead(true);
+		sharedAlbumData2.setWrite(false);
+
+		User user1 = new User();
+		user1.setId(1L);
+		user1.setName("Leanne Graham");
+		user1.setUsername("Bret");
+		user1.setEmail("Sincere@april.biz");
+
+		User user2 = new User();
+		user2.setId(2L);
+		user2.setName("Ervin Howell");
+		user2.setUsername("Antonette");
+		user2.setEmail("Shanna@melissa.tv");
+
+		when(albumService.getAlbums()).thenReturn(Arrays.asList(restTemplate.getForObject(AlbumClient.EXTERNAL_SERVICE_URL + AlbumClient.GET_ALBUMES_REQUEST, Album[].class)));
+		when(albumService.getAlbumById(any())).thenReturn(album); //thenAnswer(i -> (Long) i.getArguments()[0] == 1L ? album : album2);
+		when(sharedAlbumDataRepository.findAll()).thenReturn(Arrays.asList(sharedAlbumData1, sharedAlbumData2, sharedAlbumData3));
+		when(sharedAlbumDataRepository.findByAlbumIdAndUserId(any(), any())).thenAnswer(i -> (Long) i.getArguments()[0] == 1L ? sharedAlbumData1 : sharedAlbumData2);
+		when(sharedAlbumDataRepository.findSharedAlbumDataByAlbumId(any())).thenReturn(Arrays.asList(sharedAlbumData1, sharedAlbumData2));
+		when(userService.getUserById(any())).thenAnswer(i -> (Long) i.getArguments()[0] == 1L ? user1 : user2);
 	}
 
 	@Test
 	public void testFindAllSharedAlbumsData(){
-		// Testeo además el guardado realizado en el @Before
 		List<SharedAlbumData> data = sharedAlbumDataService.findAll();
 		Assert.assertEquals(3, data.size(), 0);
 	}

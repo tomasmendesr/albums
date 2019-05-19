@@ -39,8 +39,12 @@ public class SharedAlbumDataService {
 
     /* Return all albums that contains sharedAlbumData */
     public List<Album> findAllSharedAlbums() {
-        List<Long> idsSharedAlbums = repository.findAll().stream().map(s -> s.getAlbumId()).distinct().collect(Collectors.toList());
+        List<Long> idsSharedAlbums = getSharedAlbumsIds();
         return albumService.getAlbums().stream().filter(a -> idsSharedAlbums.contains(a.getId())).collect(Collectors.toList());
+    }
+
+    private List<Long> getSharedAlbumsIds(){
+        return repository.findAll().stream().map(s -> s.getAlbumId()).distinct().collect(Collectors.toList());
     }
 
     public void saveSharedAlbum(SharedAlbumDTO newSharedAlbum) {
