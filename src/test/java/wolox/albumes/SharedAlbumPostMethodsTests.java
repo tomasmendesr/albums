@@ -1,6 +1,7 @@
 package wolox.albumes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,6 +30,11 @@ public class SharedAlbumPostMethodsTests {
     MockMvc mockMvc;
     @Autowired
     SharedAlbumDataRepository sharedAlbumDataRepository;
+
+    @After
+    public void clean(){
+        sharedAlbumDataRepository.deleteAll();
+    }
 
     @Test
     public void testSaveSharedAlbumDataPostRequest() throws Exception {

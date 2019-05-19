@@ -1,6 +1,7 @@
 package wolox.albumes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,11 @@ public class SharedAlbumControllerGetMethodsTests {
         sharedAlbumData3.setWrite(false);
 
         sharedAlbumDataRepository.saveAll(Arrays.asList(sharedAlbumData1, sharedAlbumData2, sharedAlbumData3));
+    }
+
+    @After
+    public void clean(){
+        sharedAlbumDataRepository.deleteAll();
     }
 
     @Test
