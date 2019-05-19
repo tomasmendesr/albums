@@ -19,7 +19,7 @@ public class CommentControllerImpl implements CommentController {
 
     @Override
     public ResponseEntity getComments(Long userId, String name) {
-        if(userId == null && (name == null || !StringUtils.hasText(name))){
+        if(userId == null && (!StringUtils.hasText(name))){
             return getAllComments();
         }
         return getCommentsApplyingFilters(userId,name);
