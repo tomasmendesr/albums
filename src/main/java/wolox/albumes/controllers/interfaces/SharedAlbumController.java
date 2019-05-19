@@ -6,20 +6,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import wolox.albumes.dtos.SharedAlbumDTO;
+import wolox.albumes.dtos.SharedAlbumDataDTO;
 
 import java.util.List;
 
 public interface SharedAlbumController {
 
     @GetMapping(value = "/sharedAlbums", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity getAll();
+    ResponseEntity getAllSharedAlbums();
+
+    @GetMapping(value = "/sharedAlbumsData", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity getAllSharedAlbumsData();
 
     @PostMapping(value = "/sharedAlbums/save", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity saveSharedAlbumPermissions(@RequestBody SharedAlbumDTO newSharedAlbum);
+    ResponseEntity saveSharedAlbumPermissions(@RequestBody SharedAlbumDataDTO newSharedAlbum);
 
     @PostMapping(value = "/sharedAlbums/saveList", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity saveSharedAlbumPermissionsList(@RequestBody List<SharedAlbumDTO> newSharedAlbumList);
+    ResponseEntity saveSharedAlbumPermissionsList(@RequestBody List<SharedAlbumDataDTO> newSharedAlbumList);
 
     @GetMapping(value = "/sharedAlbums/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity getSharedAlbumById(@PathVariable Long id);

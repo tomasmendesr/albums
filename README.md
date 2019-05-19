@@ -48,6 +48,8 @@ Todas las respuestas se encuentran en formato JSON.
 - Obtener los usuarios que poseen un permiso especifico sobre un album compartido determinado
     - `localhost:8080/sharedAlbums/<albumId>/<permiso>`
     - Los valores validos para el permiso son: read/write
+- Obtener toda la informacion relacionada a albumes compartidos (idAlbum, idUsuario, permisos)
+    - `localhost:8080/sharedAlbumsData`
     
 ##### Metodos POST
 Tanto para el alta como el update de registros de albumes compartidos se maneja el mismo formato:

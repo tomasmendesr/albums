@@ -7,18 +7,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import wolox.albumes.clients.*;
-import wolox.albumes.dtos.*;
 import wolox.albumes.models.*;
 import wolox.albumes.repositories.SharedAlbumDataRepository;
 import wolox.albumes.services.*;
-import wolox.albumes.utils.PermissionsConstants;
+import wolox.albumes.models.PermissionsConstants;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,7 +26,6 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SharedAlbumServiceTests {
-
 
 	@Autowired
 	RestTemplate restTemplate;
@@ -71,11 +67,11 @@ public class SharedAlbumServiceTests {
 		sharedAlbumData2.setWrite(false);
 
 		SharedAlbumData sharedAlbumData3 = new SharedAlbumData();
-		sharedAlbumData2.setId(new SharedAlbumDataId(2L,3L));
-		sharedAlbumData2.setAlbumId(2L);
-		sharedAlbumData2.setUserId(3L);
-		sharedAlbumData2.setRead(true);
-		sharedAlbumData2.setWrite(false);
+		sharedAlbumData3.setId(new SharedAlbumDataId(2L,3L));
+		sharedAlbumData3.setAlbumId(2L);
+		sharedAlbumData3.setUserId(3L);
+		sharedAlbumData3.setRead(true);
+		sharedAlbumData3.setWrite(false);
 
 		User user1 = new User();
 		user1.setId(1L);

@@ -4,10 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import wolox.albumes.controllers.interfaces.SharedAlbumController;
-import wolox.albumes.dtos.SharedAlbumDTO;
+import wolox.albumes.dtos.SharedAlbumDataDTO;
+import wolox.albumes.exceptions.InvalidPermissionException;
 import wolox.albumes.exceptions.InvalidSharedAlbumObjectException;
 import wolox.albumes.services.SharedAlbumDataService;
-import wolox.albumes.utils.PermissionsConstants;
+import wolox.albumes.models.PermissionsConstants;
 
 import java.util.List;
 
@@ -18,19 +19,24 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
     private SharedAlbumDataService sharedAlbumDataService;
 
     @Override
-    public ResponseEntity getAll() {
+    public ResponseEntity getAllSharedAlbums() {
         return ResponseEntity.ok(sharedAlbumDataService.findAllSharedAlbums());
     }
 
     @Override
-    public ResponseEntity saveSharedAlbumPermissions(SharedAlbumDTO newSharedAlbum) {
+    public ResponseEntity getAllSharedAlbumsData() {
+        return ResponseEntity.ok(sharedAlbumDataService.findAll());
+    }
+
+    @Override
+    public ResponseEntity saveSharedAlbumPermissions(SharedAlbumDataDTO newSharedAlbum) {
         validateSharedAlbumObject(newSharedAlbum);
         sharedAlbumDataService.saveSharedAlbum(newSharedAlbum);
         return ResponseEntity.ok("Permisos de usuario guardados sobre el album con id " + newSharedAlbum.getAlbumId());
     }
 
     @Override
-    public ResponseEntity saveSharedAlbumPermissionsList(List<SharedAlbumDTO> newSharedAlbumList) {
+    public ResponseEntity saveSharedAlbumPermissionsList(List<SharedAlbumDataDTO> newSharedAlbumList) {
         if(newSharedAlbumList == null || newSharedAlbumList.size() == 0) return ResponseEntity.badRequest().body("No se recibió ningún registro");
         newSharedAlbumList.forEach(n -> validateSharedAlbumObject(n));
         sharedAlbumDataService.saveSharedAlbumList(newSharedAlbumList);
@@ -45,17 +51,17 @@ public class SharedAlbumControllerImpl implements SharedAlbumController {
     @Override
     public ResponseEntity getUsersFromSharedAlbumByPermissions(Long id, String permission) {
         if (permission == null || (!PermissionsConstants.READ.equals(permission) && !PermissionsConstants.WRITE.equals(permission))) {
-            return ResponseEntity.badRequest().body("Los unicos valores validos para los permisos son: read/write");
+            throw new InvalidPermissionException(permission);
         }
         return ResponseEntity.ok(sharedAlbumDataService.getUsersFromSharedAlbumByPermissions(id, permission));
     }
 
-    public void validateSharedAlbumObject(SharedAlbumDTO sharedAlbumDTO){
+    public void validateSharedAlbumObject(SharedAlbumDataDTO sharedAlbumDataDTO){
         String errorMsg = null;
-        if(sharedAlbumDTO.getAlbumId() == null) errorMsg = "Es necesario indicar el id del album";
-        if(sharedAlbumDTO.getUserId() == null) errorMsg = "Es necesario indicar el id del usuario";
-        if(sharedAlbumDTO.getRead() == null) errorMsg = "Es necesario indicar el valor del permiso de lectura";
-        if(sharedAlbumDTO.getWrite() == null)  errorMsg = "Es necesario indicar el valor del permiso de escritura";
+        if(sharedAlbumDataDTO.getAlbumId() == null) errorMsg = "Es necesario indicar el id del album";
+        if(sharedAlbumDataDTO.getUserId() == null) errorMsg = "Es necesario indicar el id del usuario";
+        if(sharedAlbumDataDTO.getRead() == null) errorMsg = "Es necesario indicar el valor del permiso de lectura";
+        if(sharedAlbumDataDTO.getWrite() == null)  errorMsg = "Es necesario indicar el valor del permiso de escritura";
         if(errorMsg != null) throw new InvalidSharedAlbumObjectException(errorMsg);
     }
 

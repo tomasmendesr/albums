@@ -1,6 +1,6 @@
 package wolox.albumes.dtos;
 
-public class SharedAlbumDTO {
+public class SharedAlbumDataDTO {
     private Long albumId;
     private Long userId;
     private Boolean read;

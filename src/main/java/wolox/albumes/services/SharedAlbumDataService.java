@@ -2,15 +2,14 @@ package wolox.albumes.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import wolox.albumes.dtos.SharedAlbumDTO;
-import wolox.albumes.exceptions.AlbumNotFoundException;
+import wolox.albumes.dtos.SharedAlbumDataDTO;
 import wolox.albumes.exceptions.SharedAlbumNotFoundException;
 import wolox.albumes.models.Album;
 import wolox.albumes.models.SharedAlbumData;
 import wolox.albumes.models.SharedAlbumDataId;
 import wolox.albumes.models.User;
 import wolox.albumes.repositories.SharedAlbumDataRepository;
-import wolox.albumes.utils.PermissionsConstants;
+import wolox.albumes.models.PermissionsConstants;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class SharedAlbumDataService {
         return repository.findAll().stream().map(s -> s.getAlbumId()).distinct().collect(Collectors.toList());
     }
 
-    public void saveSharedAlbum(SharedAlbumDTO newSharedAlbum) {
+    public void saveSharedAlbum(SharedAlbumDataDTO newSharedAlbum) {
         albumService.checkIfAlbumExistsOrThrowAlbumNotFoundException(newSharedAlbum.getAlbumId());
         save(dtoToModel(newSharedAlbum));
     }
@@ -57,7 +56,7 @@ public class SharedAlbumDataService {
         return albumService.getAlbumById(id);
     }
 
-    public void saveSharedAlbumList(List<SharedAlbumDTO> newSharedAlbumList) {
+    public void saveSharedAlbumList(List<SharedAlbumDataDTO> newSharedAlbumList) {
         albumService.checkIfAlbumExistsOrThrowAlbumNotFoundException(newSharedAlbumList.get(0).getAlbumId());
         newSharedAlbumList.forEach(dto -> save(dtoToModel(dto)));
     }
@@ -82,7 +81,7 @@ public class SharedAlbumDataService {
     }
 
     /********* UTILS *****************/
-    private SharedAlbumData dtoToModel(SharedAlbumDTO dto){
+    private SharedAlbumData dtoToModel(SharedAlbumDataDTO dto){
         SharedAlbumData album = new SharedAlbumData();
         album.setId(new SharedAlbumDataId(dto.getAlbumId(), dto.getUserId()));
         album.setRead(dto.getRead());

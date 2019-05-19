@@ -1,4 +1,4 @@
-package wolox.albumes.utils;
+package wolox.albumes.models;
 
 public class PermissionsConstants {
     public static final String WRITE = "write";
