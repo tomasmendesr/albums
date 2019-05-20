@@ -19,7 +19,7 @@ Decidí utilizar esta base de datos en memoria con el fin de que el testeo de la
 
 La solución de repositorio de Spring Data hace posible eludir detalles específicos del almacén de datos y, en cambio, resolver la mayoría de los problemas utilizando terminología específica del dominio.
 
-Además, si en un futuro se desease incoporar una base de datos para persistir la informacion sería sencillo realizar la integración ya que solo se debe modificar la clase SharedAlbumDataRepository para que las querys se realicen sobre la nueva BBDD incorporada. 
+Además, si en un futuro se desease incoporar una base de datos para persistir la informacion sería sencillo realizar la integración ya que solo se debe modificar la clase SharedAlbumDataRepository para que las querys se realicen sobre la nueva BBDD incorporada. Por ejemplo en caso de implementar un MySQL, se debe agregar el archivo persistence.xml en la carpeta resources del proyecto, en el cual se configura la conexión a la base. Luego, SharedAlbumDataRepository debería pasar de ser una interfaz a ser una clase, se debería agregar el entityManager como atributo e implementar los métodos definidos actualmente en el repositorio.
 
 ### End Points
 Todas las respuestas se encuentran en formato JSON.
