@@ -75,3 +75,7 @@ A través de los dos métodos POST es posible modificar los permisos de un usuar
 - Para obtener un album especifico por id, el usuario deberá hacer un get a mi aplicación indicando el id del album. En un principio la app tomaba ese id y realizaba una consulta a la API externa usando el id como parametro. Sin embargo, cuando no existía ningún album con el id indicado, la aplicación externa respondía con un estado de error 404. Por lo tanto, para poder controlar y manipular los errores, opté por obtener la lista entera de albumes provenientes de la API externa y buscar el registro que coincida con el id consultado. Ya que en caso de no encontrar ningún registro, pueda retornar una excepción controlada. 
 - La misma decisión anterior aplica para buscar usuarios.
 - Los controller presentan interfaces por si fuese necesario agregar una nueva implementación de los request. Solo se debe agregar una clase que implemente la interfaz. Spring posee herramientas que permiten inyectar una implementación específica de una interfaz. Además, usar la interfaz para definir los métodos http hace que los endpoints sean más legibles y entendibles.  
+- Al querer dar de alta un nuevo registro para manejar los permisos de un usuario sobre un album compartido se realizan tres validaciones:
+	- 1) Que el objeto este correctamente definido. Es decir, ninguno de sus atributos puede ser null.
+	- 2) Que exista el album indicado.
+	- 3) Que exista el usuario indicado.

@@ -9,9 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>wolox</groupId>
-	<artifactId>albumes</artifactId>
+	<artifactId>album-permission-service</artifactId>
 	<version>1.0</version>
-	<name>albumes</name>
 	<description>Evaluacion tecnica Wolox</description>
 
 	<properties>
